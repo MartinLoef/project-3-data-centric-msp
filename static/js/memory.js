@@ -18,6 +18,7 @@ function loadGame() {
         $("#board").attr("class", "hide");
         tracker = [];
         idTracker = [];
+        guesses = 0;
 
 	var user = document.getElementById("user").innerHTML;
 	var e = document.getElementById("BoardSize");
@@ -33,6 +34,8 @@ function loadGame() {
 		dataType: "json", // type of content being received
 		data: JSON.stringify(postObj), //create the specific board for a user
 		success: function(data) {
+		    guesses = 0;
+		    $("#guesses").html("Guesses: ");
 					var element = document.getElementById("board");
 					console.log(parseInt(size));
      				var name = 0;
@@ -110,6 +113,8 @@ function chosenBlock(i, j, id) {
 				idTracker.push(data.id);
 				guesses++;
 				scan(guesses);
+				currentGuesses = Math.round(guesses / 2);
+				$("#guesses").html("Guesses: " + currentGuesses);
 				
 				if (tracker.length > 1) {
 					if (tracker[0] !== tracker[1]) {
@@ -245,6 +250,7 @@ function clear(){
     
     	$("#board").empty();
         $("#board").attr("class", "hide");
-        // $("#correct").html("");
+        guesses = 0;
+
 
 }

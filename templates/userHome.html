@@ -28,12 +28,20 @@
 </header>
 <div class="container">
     <div class="row">
-        <select id="BoardSize" name="BoardSize">
-            <option value="4" selected>Beginner Level 4 x 4</option>
-            <option value="6">Expert Level 6 x 6</option>
-        </select>
-        <div class="custom-center">
-            <a href="#game" class="btn-small left" onclick="loadGame()">Start New Game</a>
+        <div class="col s12 m4">
+            <select id="BoardSize" name="BoardSize">
+                <option value="4" selected>Beginner Level 4 x 4</option>
+                <option value="6">Expert Level 6 x 6</option>
+            </select>
+            <div class="custom-center">
+                <a href="#game" class="btn-small left" onclick="loadGame()">Start New Game</a>
+            </div>
+        </div>
+        <div class="col s4 tracking">
+            <span>User: </span><span id="user">{{session['user']}}</span>
+        </div>
+        <div class="col s4 tracking">
+            <span id="guesses"></span>
         </div>
     </div>
     <div><center><table id="board"></table></center></div>
