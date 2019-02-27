@@ -42,10 +42,24 @@ def SignUp():
                 session['user'] = request.form[('username')]
                 return redirect('/userHome')
             else:
-                return render_template('signup.html', error="password do not match")
+                return render_template('signup.html', error="password does not match")
     else:
         return render_template('signup.html', error="Fill in all required fields")
 
+@app.route('/userHome')
+def userHome():
+    if 'user' in session:
+        username = session["user"]
+        uName = mongo.db.tblUsers.find_one({'username':username})
+
+        if uName:
+            userid = uName['_id']
+            return render_template('userHome.html', user=username, userid=userid)
+        else:
+            return render_template('error.html',error = 'Username not found')
+    else:
+        return render_template('error.html',error = 'Unauthorized Access')
+        
 if __name__ == '__main__':
     app.run(host=os.environ.get("IP"),
         port=int(os.environ.get("PORT")),
