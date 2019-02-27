@@ -1,0 +1,63 @@
+#board {
+  min-width: 60%;
+}
+
+tr{
+	border-bottom: 0px;
+}
+
+table, tr, td{
+	padding: 0px;
+	max-width: 102px;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+td {
+  width: 16.66667%;
+  position: relative;
+}
+
+td .tile {
+  position: absolute;
+  box-shadow: 1px 1px 2px 2px grey;
+	background-color: #a63434;
+	border: 2px solid white;
+	border-radius: 5px;
+	padding: 3px;
+	width: 98%;
+	height: 98%;
+	vertical-align: top;
+	display: inline-block;
+	text-align: center;
+	font-size: 10px;
+	margin:2px;
+}
+
+td:after {
+  content: '';
+  display: block;
+  margin-top: 100%;
+}
+
+td .flipped{
+  position: absolute;
+  box-shadow: 1px 1px 2px 2px grey;
+	background-color: white;
+	border: 2px solid #a63434;
+	border-radius: 5px;
+	padding: 3px;
+	width: 98%;
+	height: 98%;
+	vertical-align: top;
+	display: flex;
+	text-align: center;
+	/*font-size: 7rem;*/
+	margin:2px;
+	transform: rotateY(360deg);
+	transition: width 0.4s, background-color 0.5s, transform 0.7s;
+	}

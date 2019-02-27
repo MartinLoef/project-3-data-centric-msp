@@ -1,9 +1,14 @@
 import os
+import random
 import sys
+import ast
+from string import ascii_uppercase
+from random import choice
 from flask_pymongo import PyMongo
 from flask import Flask, render_template, redirect, request, url_for,session, json
 from werkzeug.security import generate_password_hash, check_password_hash
 from bson.objectid import ObjectId
+
 
 app = Flask(__name__)
 app.secret_key = "randomsecretkey"
@@ -11,6 +16,7 @@ app.config["MONGO_DBNAME"] = 'memory'
 app.config["MONGO_URI"] = 'mongodb://admin:Admin123@ds155045.mlab.com:55045/memory'
 
 mongo = PyMongo(app)
+users = {}
 
 @app.route('/')
 def main():
@@ -94,6 +100,54 @@ def validateLogin():
 def logout():
     session.pop('user',None)
     return redirect('/')
+
+@app.route("/create_game", methods = ["POST"])
+def create_game():
+	post_obj = request.json
+	post_obj["board"] = make_board(post_obj["size"])
+	users[post_obj["username"]] = post_obj
+	return json.dumps(post_obj), 200
+
+def make_board(size):
+	print('hallo')
+	sizeint = int(size)
+	double = int(size) * int(size)
+	set_one = []
+	set_two = []
+
+	board = []
+	for i in range(int(double / 2)): # define the numbers to play with
+		set_one.append(i) # first set of numbers
+		set_two.append(i) # second set of numbers to make sure we have pairs
+		
+	combined_pool = []
+	for i in range(double):
+		if len(set_one) != 0:
+			random_draw = set_one[random.randint(0, len(set_one) - 1)]
+			set_one.remove(random_draw)
+			combined_pool.append(random_draw)
+		elif len(set_one) == 1:
+			random_draw = set_one[0] #no need for random draw since there is 1 left
+			set_one.remove(random_draw)
+			combined_pool.append(random_draw)
+		if len(set_two) != 0:
+			random_draw = set_two[random.randint(0, len(set_two) - 1)]
+			set_two.remove(random_draw)
+			combined_pool.append(random_draw)
+		elif len(set_two) == 1: #no need for random draw since there is 1 left
+			random_draw = set_two[0]
+			set_two.remove(random_draw)
+			combined_pool.append(random_draw)
+		
+            
+	for i in range(sizeint):	# convert the combined pool of numbers to the board and give them a location
+		mini_board = []
+		for j in range(sizeint):
+			mini_board.append(combined_pool[0])
+			combined_pool.remove(combined_pool[0])
+		board.append(mini_board)	
+		print(board)
+	return board
 
 if __name__ == '__main__':
     app.run(host=os.environ.get("IP"),
