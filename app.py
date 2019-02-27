@@ -149,6 +149,20 @@ def make_board(size):
 		print(board)
 	return board
 
+@app.route("/tile_click", methods = ["POST"])
+def tile_click():
+	print(session['user'])
+	post_obj = request.json
+	choice = post_obj["choice"]
+	choice = ast.literal_eval(choice) # converts the str to dict
+	client_name = post_obj["username"] # check which player is making the request
+	client = users[client_name] # get the players info
+	client_board = client["board"] #get the current board that the user is playing on
+	info = {}
+	info["value"] = client_board[int(choice["row"])][int(choice["col"])]
+	info["id"] = choice["id"]
+	return json.dumps(info), 200
+
 if __name__ == '__main__':
     app.run(host=os.environ.get("IP"),
         port=int(os.environ.get("PORT")),

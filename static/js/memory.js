@@ -4,8 +4,13 @@ var bigBoard = 0;
 var smallBoard = 0;
 var size = 0;
 var width = 0;
+var guesses = 0;
 
-
+/*
+	Function: Create a New Game
+	 Purpose: Create a random board based on the selected boardsize
+		  in: boardsize as input
+*/
 function loadGame() {
 	clear(function() {
 			$("#board").empty();
@@ -15,6 +20,7 @@ function loadGame() {
         idTracker = [];
 
 	var user = document.getElementById("user").innerHTML;
+	
 	var size = 4;
 	postObj = {
 		username: user,
@@ -50,6 +56,133 @@ function loadGame() {
 					click(data);
 				}
 	});
+}
+
+/*
+	Function: Activate a tile and show the related value in the tile
+	 Purpose: determine which tile in the board is clicked
+		  in: board 
+*/
+
+function click(data) {
+	var name = 0;
+	for (var i = 0; i < data.board.length; i++) {
+		for (var j = 0; j < data.board[i].length; j++) {
+			// Selector is the element extracted using the name
+			$("#" + name).click(function() {
+				chosenBlock($("#" + this.id).attr("value"), $("#" + this.id).attr("name"), this.id);
+			});
+			name++; // incrementing name selector 
+		}
+	}
+}
+
+/*
+	Function: Set the value to the tile based on the board
+	 Purpose: determine which tile is clicked and find the related value
+		  in: tile id
+*/
+
+
+function chosenBlock(i, j, id) {
+	var obj = {};
+	var user = document.getElementById("user").innerHTML;
+	
+	var size = 4;
+	obj.row = i;
+	obj.col = j;
+	obj.id = id;
+	postObjChoice = {
+		username: user,
+		choice: JSON.stringify(obj)
+	}
+	$.ajax({
+		url: "/tile_click",
+		type: "POST",
+		contentType: "application/json",
+		dataType: "json",
+		data: JSON.stringify(postObjChoice),
+		success: function(data) {
+			// prevents from inputting values inside the tile once its already flipped
+			if (!document.getElementById(data.id).hasChildNodes()) {
+				activate(data.id, data.value);
+				tracker.push(data.value);
+				idTracker.push(data.id);
+				guesses++;
+				scan(guesses);
+				
+				if (tracker.length > 1) {
+					if (tracker[0] !== tracker[1]) {
+						deactivate(data.id); // Deactivate the current selection
+						deactivate(idTracker[0]); // Deactivate the one before as well
+						tracker.pop(); // Empty out the arrays to be filled with new ones
+						idTracker.pop(); // Empty the id tracking array as well
+						tracker.pop();
+						idTracker.pop();
+						scan(guesses); // scan for guesses
+					}
+					
+					if (tracker[0] === tracker[1]) {
+						while (tracker.length !== 0) {
+							tracker.pop();
+						}
+						while (idTracker.length !== 0) {
+							idTracker.pop();
+						}
+					}
+				}
+			}
+	},
+	});
+}
+
+/*
+	Function: activate
+	 Purpose: Flips the tile when clicked and adds a value
+		  in: id, value
+*/
+function activate(id, value) {
+	$("#" + id).attr("class", "flipped");
+	var width = document.getElementById('board').offsetWidth;
+	
+	var size = 4;
+	var fz = 0.65 * (width/size)
+
+	$("#" + id).append(`<span>` + value + `</span>`)
+	
+	
+}
+/*
+	Function: deactivate
+	 Purpose: When clicked removes a value by removing the span and changes the physical look of the tile
+		  in: id
+*/
+function deactivate(id) {
+	window.setTimeout(function() {
+		$("#" + id).attr("class", "tile");
+		$("#" + id).children().remove();
+	}, 800);
+}
+/*
+	Function: scan
+	 Purpose: Scans all the blocks to check if all of the blocks have been flipped
+		  in: guesses 
+*/
+function scan(guesses) {
+	var number = 0;
+	var count = 0;
+	// Everytime the for loop starts count gets incremented
+	for (var i = 0; i < bigBoard; i++) {
+		for (var j = 0; j < smallBoard; j++) {
+			if (document.getElementById(number).hasChildNodes()) {
+				count++;
+			}
+			number++;
+		}
+	}
+	if (count === bigBoard * smallBoard) {
+		var nothing = "";
+		}
 }
 
 function clear(){
