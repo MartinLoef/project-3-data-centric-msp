@@ -20,8 +20,8 @@ function loadGame() {
         idTracker = [];
 
 	var user = document.getElementById("user").innerHTML;
-	
-	var size = 4;
+	var e = document.getElementById("BoardSize");
+	var size = e.options[e.selectedIndex].value;
 	postObj = {
 		username: user,
 		size: size
@@ -87,8 +87,8 @@ function click(data) {
 function chosenBlock(i, j, id) {
 	var obj = {};
 	var user = document.getElementById("user").innerHTML;
-	
-	var size = 4;
+	var e = document.getElementById("BoardSize");
+	var size = e.options[e.selectedIndex].value;
 	obj.row = i;
 	obj.col = j;
 	obj.id = id;
@@ -144,8 +144,8 @@ function chosenBlock(i, j, id) {
 function activate(id, value) {
 	$("#" + id).attr("class", "flipped");
 	var width = document.getElementById('board').offsetWidth;
-	
-	var size = 4;
+	var e = document.getElementById("BoardSize");
+	var size = e.options[e.selectedIndex].value;
 	var fz = 0.65 * (width/size)
 
 	if (value == 1){
