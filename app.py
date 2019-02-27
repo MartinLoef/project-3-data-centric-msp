@@ -59,7 +59,42 @@ def userHome():
             return render_template('error.html',error = 'Username not found')
     else:
         return render_template('error.html',error = 'Unauthorized Access')
-        
+
+@app.route('/showSignin')
+def showSignin():
+    if session.get('user'):
+        return render_template('userHome.html')
+    else:
+        return render_template('signin.html')
+
+@app.route('/validateLogin',methods=['POST'])
+def validateLogin():
+    _username = request.form[('username')]
+    _password = request.form[('password_one')]
+    if _username and _password:
+        # connect to MongoDB
+        uName = mongo.db.tblUsers.find_one({'username':_username})
+        if uName:
+            pwd_hash = uName['pwd']
+            if check_password_hash(str(pwd_hash),_password):
+                session['user'] = request.form[('username')]
+                userBeginner = mongo.db.tblBeginner.find_one({'username':_username})
+                userExpert = mongo.db.tblExpert.find_one({'username':_username})
+                userGames = mongo.db.tblGamesPlayed.find_one({'username':_username})
+                return render_template('userHome.html', user=session['user'], beginner=userBeginner, expert=userExpert, games=userGames)
+                # return redirect('/userHome')
+            else:
+                return render_template('signin.html',error = 'Invalid Password')
+        else:
+            return render_template('signin.html',user_error = 'Username does not exist')
+    else:
+        return render_template('signin.html',error = 'Invalid Password')
+
+@app.route('/logout')
+def logout():
+    session.pop('user',None)
+    return redirect('/')
+
 if __name__ == '__main__':
     app.run(host=os.environ.get("IP"),
         port=int(os.environ.get("PORT")),
