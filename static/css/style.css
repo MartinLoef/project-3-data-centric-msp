@@ -100,11 +100,18 @@ nav {
 }
 
 .select-wrapper input.select-dropdown{
-  border-bottom: 0 !important
+  border: 1px solid !important;
+  margin: 5px !important;
 }
 
 .margin-top{
   margin-top: 10px !important;
+}
+
+.active-user{
+    font-size: 1rem;
+    color: #fff;
+    padding: 0 15px;
 }
 
 .custom-width{

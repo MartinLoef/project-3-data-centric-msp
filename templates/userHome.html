@@ -18,7 +18,7 @@
 <header>
   <nav>
     <div class="nav-wrapper">
-      <label>User: </label><label id="user">{{session['user']}}</label>
+      <label class="active-user">User:<label class="active-user" id="user">{{session['user']}}</label> </label>
       <ul id="nav-mobile" class="right">
         <li><a href={{url_for('LeaderBoards')}}>LeaderBoards</a></li>
         <li class="active"><a href={{url_for('userHome')}}>Game</a></li>
