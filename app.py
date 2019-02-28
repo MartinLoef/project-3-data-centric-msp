@@ -142,18 +142,6 @@ def submitScore():
             tbl_scores = mongo.db.tblExpert
         tbl_scores.insert_one({'Username': username, 'Size': size, 'Moves': turns, 'Avatar': userAvatar})
         
-        uName = mongo.db.tblGamesPlayed.find_one({'Username':username})
-        if uName:
-            UserGameId = uName['_id']
-            mongo.db.tblGamesPlayed.update(
-                {'_id': ObjectId(UserGameId)},
-                {
-                    'Username': uName['Username'],
-                    'Games': int(uName['Games']) + 1,
-                    'Avatar': userAvatar
-                })
-        else:
-            mongo.db.tblGamesPlayed.insert_one({'Username': username, 'Games': 1, 'Avatar': userAvatar})
         return json.dumps("Success"), 200
     else:
         return render_template('error.html',error = 'Unauthorized Access')
