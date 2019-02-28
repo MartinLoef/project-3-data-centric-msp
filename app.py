@@ -108,6 +108,51 @@ def create_game():
 	users[post_obj["username"]] = post_obj
 	return json.dumps(post_obj), 200
 
+@app.route('/submitScore',methods=['POST'])
+def submitScore():
+    if 'user' in session:
+        username = session["user"]
+        uName = mongo.db.tblUsers.find_one({'username':username})
+        userAvatar = uName['avatar']
+        post_obj = request.json
+        username = post_obj["username"]
+        turns = post_obj["turns"]
+        size = post_obj["size"]
+        if size == "4":
+            tbl_scores = mongo.db.tblBeginner
+        else:
+            tbl_scores = mongo.db.tblExpert
+        tbl_scores.insert_one({'Username': username, 'Size': size, 'Moves': turns, 'Avatar': userAvatar})
+        
+        uName = mongo.db.tblGamesPlayed.find_one({'Username':username})
+        if uName:
+            UserGameId = uName['_id']
+            mongo.db.tblGamesPlayed.update(
+                {'_id': ObjectId(UserGameId)},
+                {
+                    'Username': uName['Username'],
+                    'Games': int(uName['Games']) + 1,
+                    'Avatar': userAvatar
+                })
+        else:
+            mongo.db.tblGamesPlayed.insert_one({'Username': username, 'Games': 1, 'Avatar': userAvatar})
+        return json.dumps("Success"), 200
+    else:
+        return render_template('error.html',error = 'Unauthorized Access')
+
+@app.route('/LeaderBoards')
+def LeaderBoards():
+    if 'user' in session:
+        
+        Beginner=mongo.db.tblBeginner.find({ "$query": {}, "$orderby": { 'Moves' : 1 }})
+        Expert=mongo.db.tblExpert.find({ "$query": {}, "$orderby": { 'Moves' : 1 }})
+        GamesPlayed=mongo.db.tblGamesPlayed.find({ "$query": {}, "$orderby": { 'Games' : -1 }})
+        
+        return render_template('LeaderBoards.html', beginnerList=Beginner, expertList=Expert, Games=GamesPlayed, user=session['user'])
+    else:
+        return render_template('error.html',error = 'Unauthorized Access')
+
+
 def make_board(size):
 	print('hallo')
 	sizeint = int(size)

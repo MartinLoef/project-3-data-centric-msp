@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css" />
+    <script type="text/javascript" src="/static/memory.js"></script>
+
+    <title>Memory Game</title>
+</head>
+
+<body>
+<header>
+  <nav>
+    <div class="nav-wrapper">
+      <label>User: </label><label id="user">{{session['user']}}</label>
+      <ul id="nav-mobile" class="right">
+        <li class="active"><a href="/LeaderBoards.html">LeaderBoards</a></li>
+        <li><a href={{url_for('userHome')}}>Game</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<div class="container">
+  <div class="row">
+    <ul class="collapsible">
+        <li>
+            <div class="collapsible-header" data-collapsible="accordion">
+                <div class="col s3">
+                    <i class="material-icons">expand_more</i>
+                </div>
+                <div class=" task_header col s9">
+                    <strong>Show LeaderBoard 4 by 4 (Beginner Class)</strong>
+                </div>
+            </div>
+            <div class="collapsible-body">
+                <ul class="collection">
+                  {% for beginner in beginnerList  %}
+                  <div class="row">
+                    <li class="collection-item avatar">
+                      <div class="col s2">
+                        <img src={{beginner.Avatar}} class="circle">
+                      </div>
+                      <div class="col s6">
+                        <div class="custom-title left">{{beginner.Username}}</div>
+                      </div>
+                      <div class="col s2"><p class="custom-title right">{{beginner.Moves}}</p></div>
+                    </li>
+                  </div>
+                  {% endfor %}
+                </ul>
+            </div>
+        </li>
+    </ul>
+    <ul class="collapsible">
+        <li>
+            <div class="collapsible-header" data-collapsible="accordion">
+                <div class="col s3">
+                    <i class="material-icons">expand_more</i>
+                </div>
+                <div class=" task_header col s9">
+                    <strong>Show LeaderBoard 6 by 6 (Expert Class)</strong>
+                </div>
+            </div>
+            <div class="collapsible-body">
+                <ul class="collection">
+                  {% for expert in expertList  %}
+                  <div class="row">
+                    <li class="collection-item avatar">
+                      <div class="col s2">
+                        <img src={{expert.Avatar}} class="circle">
+                      </div>
+                      <div class="col s3">
+                        <div class="custom-title left">{{expert.Username}}</div>
+                      </div>
+                      <div class="col s2"><p class="custom-title right">{{expert.Moves}}</p></div>
+                    </li>
+                  </div>
+                  {% endfor %}
+                </ul>
+            </div>
+        </li>
+    </ul>
+    <ul class="collapsible">
+        <li>
+            <div class="collapsible-header" data-collapsible="accordion">
+                <div class="col s3">
+                    <i class="material-icons">expand_more</i>
+                </div>
+                <div class=" task_header col s9">
+                    <strong>Show LeaderBoard Most Games Played</strong>
+                </div>
+            </div>
+            <div class="collapsible-body">
+              <ul class="collection">
+                {% for games in Games  %}
+                <div class="row">
+                  <li class="collection-item avatar">
+                    <div class="col s2">
+                      <img src={{games.Avatar}} class="circle">
+                    </div>
+                    <div class="col s6">
+                      <div class="custom-title left">{{games.Username}}</div>
+                    </div>
+                    <div class="col s2"><p class="custom-title right">{{games.Games}}</p></div>
+                  </li>
+                </div>
+                {% endfor %}
+              </ul>
+            </div>
+        </li>
+    </ul>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('select').formSelect();
+        $('.collapsible').collapsible();
+    });
+</script>
+
+</body>
+</html>

@@ -5,6 +5,7 @@ var smallBoard = 0;
 var size = 0;
 var width = 0;
 var guesses = 0;
+var correct = 0;
 
 /*
 	Function: Create a New Game
@@ -115,7 +116,6 @@ function chosenBlock(i, j, id) {
 				scan(guesses);
 				currentGuesses = Math.round(guesses / 2);
 				$("#guesses").html("Guesses: " + currentGuesses);
-				
 				if (tracker.length > 1) {
 					if (tracker[0] !== tracker[1]) {
 						deactivate(data.id); // Deactivate the current selection
@@ -126,7 +126,28 @@ function chosenBlock(i, j, id) {
 						idTracker.pop();
 						scan(guesses); // scan for guesses
 					}
-					
+					else {
+					    correct ++;
+						$("#correct").html("Found: " + correct);
+						if ((correct == 8) && (parseInt(size) == 4)) { //winner winner chicken dinner
+						    $('#Score').removeClass('hide');
+						    postObjScore = {
+		                            username: user,
+		                            Size: size,
+		                            Turns: currentGuesses
+	                                }
+	                    console.log(postObjScore);
+						}
+						else if ((correct == 18) && (parseInt(size) == 6)){
+							$('#Score').removeClass('hide');
+							postObjScore = {
+		                            username: user,
+		                            Size: size,
+		                            Turns: currentGuesses
+	                                }
+	                    console.log(postObjScore);
+						}
+					}
 					if (tracker[0] === tracker[1]) {
 						while (tracker.length !== 0) {
 							tracker.pop();
@@ -244,6 +265,25 @@ function scan(guesses) {
 	if (count === bigBoard * smallBoard) {
 		var nothing = "";
 		}
+}
+
+function SubmitScore(){
+	var obj = {};
+	var user = document.getElementById("user").innerHTML;
+	var e = document.getElementById("BoardSize");
+	var size = e.options[e.selectedIndex].value;
+	postObjScore = {
+                    username: user,
+                    size: size,
+                    turns: currentGuesses
+                    }
+                    console.log(postObjScore)
+	$.ajax({url: "/submitScore", type: "POST", contentType: "application/json", dataType: "json", data: JSON.stringify(postObjScore), success: function(data) {
+		$("#board").empty();
+		$('#Score').addClass('hide');
+		// $("#correct").html("Found: ");
+		$("#guesses").html("Guesses: ");
+	}});
 }
 
 function clear(){
