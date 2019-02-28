@@ -62,8 +62,8 @@ td .flipped{
 	transition: width 0.4s, background-color 0.5s, transform 0.7s;
 	}
 	
-	i.medium {
-    	font-size: calc(3vw + 3vh);
+i.medium {
+    	font-size: calc(3vw + 2vh);
     	margin: auto;
 }
 
