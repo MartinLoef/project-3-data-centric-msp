@@ -136,11 +136,12 @@ def submitScore():
         username = post_obj["username"]
         turns = post_obj["turns"]
         size = post_obj["size"]
+        time = post_obj["time"]
         if size == "4":
             tbl_scores = mongo.db.tblBeginner
         else:
             tbl_scores = mongo.db.tblExpert
-        tbl_scores.insert_one({'Username': username, 'Size': size, 'Moves': turns, 'Avatar': userAvatar})
+        tbl_scores.insert_one({'Username': username, 'Size': size, 'Moves': turns, 'Time': time,  'Avatar': userAvatar})
         
         return json.dumps("Success"), 200
     else:
@@ -150,8 +151,8 @@ def submitScore():
 def LeaderBoards():
     if 'user' in session:
         
-        Beginner=mongo.db.tblBeginner.find({ "$query": {}, "$orderby": { 'Moves' : 1 }}).limit(10)
-        Expert=mongo.db.tblExpert.find({ "$query": {}, "$orderby": { 'Moves' : 1 }})
+        Beginner=mongo.db.tblBeginner.find({ "$query": {}, "$orderby": { 'Moves' : 1, 'Time': 1 }}).limit(10)
+        Expert=mongo.db.tblExpert.find({ "$query": {}, "$orderby": { 'Moves' : 1 , 'Time': 1 }})
         GamesPlayed=mongo.db.tblGamesPlayed.find({ "$query": {}, "$orderby": { 'Games' : -1 }})
         
         return render_template('LeaderBoards.html', beginnerList=Beginner, expertList=Expert, Games=GamesPlayed, user=session['user'])

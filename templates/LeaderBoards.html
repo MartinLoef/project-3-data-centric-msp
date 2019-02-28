@@ -36,9 +36,10 @@
               {%  for beginner in beginnerList %}
               <a href="#!" class="collection-item blue-grey lighten-2 white-text">
                   <div class="row no-bottom-margin">
-                      <div class="col s4 center"><img class=avatar src={{beginner.Avatar}} class="circle"></div>
-                      <div class="col s4 center">{{beginner.Username}}</div>
-                      <div class="col s4 center">{{beginner.Moves}}</div>
+                      <div class="col s3 center"><img class=avatar src={{beginner.Avatar}} class="circle"></div>
+                      <div class="col s3 center">{{beginner.Username}}</div>
+                      <div class="col s3 center">{{beginner.Moves}}</div>
+                      <div class="col s3 center">{{beginner.Time}}</div>
                   </div>
               </a>
               {% endfor %}
@@ -52,9 +53,10 @@
               {%  for expert in expertList %}
               <a href="#!" class="collection-item blue-grey lighten-2 white-text">
                   <div class="row no-bottom-margin">
-                      <div class="col s4 center"><img class=avatar src={{expert.Avatar}} class="circle"></div>
-                      <div class="col s4 center">{{expert.Username}}</div>
-                      <div class="col s4 center">{{expert.Moves}}</div>
+                      <div class="col s3 center"><img class=avatar src={{expert.Avatar}} class="circle"></div>
+                      <div class="col s3 center">{{expert.Username}}</div>
+                      <div class="col s3 center">{{expert.Moves}}</div>
+                      <div class="col s3 center">{{expert.Time}}</div>
                   </div>
               </a>
               {% endfor %}

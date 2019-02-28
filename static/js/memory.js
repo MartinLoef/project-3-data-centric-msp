@@ -6,6 +6,7 @@ var size = 0;
 var width = 0;
 var guesses = 0;
 var correct = 0;
+var timeElapsed = 0;
 
 function markPresent() {
     window.markDate = new Date();
@@ -153,29 +154,33 @@ function chosenBlock(i, j, id) {
 					}
 					else {
 					    correct ++;
-						
+						console.log(correct)
 						if ((correct == 8) && (parseInt(size) == 4)) { //winner winner chicken dinner
 						    var timeElapsed = document.getElementById("timer").innerHTML
+						    $("#time").html(timeElapsed)
 						    $("#guesses").html("Guesses: " + currentGuesses + " in : " + timeElapsed);
 						    $('#Score').removeClass('hide');
 						    postObjScore = {
 		                            username: user,
 		                            Size: size,
-		                            Turns: currentGuesses
+		                            Turns: currentGuesses,
+		                            Time: timeElapsed
 	                                }
 	                    console.log(postObjScore);
 						}
 						else if ((correct == 18) && (parseInt(size) == 6)){
 							var timeElapsed = document.getElementById("timer").innerHTML
 						    document.getElementById("timer").innerHTML = timeElapsed
-							
+							$("#guesses").html("Guesses: " + currentGuesses + " in : " + timeElapsed);
+							 $("#time").html(timeElapsed)
 							$('#Score').removeClass('hide');
 							postObjScore = {
 		                            username: user,
 		                            Size: size,
-		                            Turns: currentGuesses
+		                            Turns: currentGuesses,
+		                            Time: timeElapsed
 	                                }
-	                    console.log(postObjScore);
+	                    
 						}
 					}
 					if (tracker[0] === tracker[1]) {
@@ -300,12 +305,15 @@ function scan(guesses) {
 function SubmitScore(){
 	var obj = {};
 	var user = document.getElementById("user").innerHTML;
+	var timeElapsed = document.getElementById("time").innerHTML;
 	var e = document.getElementById("BoardSize");
 	var size = e.options[e.selectedIndex].value;
 	postObjScore = {
                     username: user,
                     size: size,
-                    turns: currentGuesses
+                    turns: currentGuesses,
+                    time: timeElapsed
+                    
                     }
                     console.log(postObjScore)
 	$.ajax({url: "/submitScore", type: "POST", contentType: "application/json", dataType: "json", data: JSON.stringify(postObjScore), success: function(data) {
@@ -313,6 +321,7 @@ function SubmitScore(){
 		$('#Score').addClass('hide');
 		// $("#correct").html("Found: ");
 		$("#guesses").html("Guesses: ");
+		correct = 0
 	}});
 }
 
@@ -320,7 +329,9 @@ function clear(){
     
     	$("#board").empty();
         $("#board").attr("class", "hide");
-        guesses = 0;
+        var guesses = 0;
+        var correct = 0;
+        timeElapsed= 0;
 
 
 }
