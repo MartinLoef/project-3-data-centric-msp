@@ -28,17 +28,26 @@
   </nav>
 </header>
 <div class="container">
-    <div class="row">
-        <div class="col s12 m4">
+    <div class="row custom-color">
+        <div class="col s6 m3">
             <select id="BoardSize" name="BoardSize">
-                <option value="4" selected>Beginner Level 4 x 4</option>
-                <option value="6">Expert Level 6 x 6</option>
+                <option value="4" selected>Beginner 4 x 4</option>
+                <option value="6">Expert 6 x 6</option>
             </select>
+        </div>
+        <div class="col s6 m3 tracking">
             <div class="custom-center">
-                <a href="#game" class="btn-small left" onclick="loadGame()">Start New Game</a>
+                <a href="#game" class="custom-width btn-small margin-top left" onclick="loadGame()">Start Game</a>
             </div>
         </div>
-        
+        <div class="col s6 m3 tracking">
+            <span id="guesses"></span>
+        </div>
+        <div class="col s6 m3 tracking">
+        <div class="custom-center">
+            <a href="#Score" id="Score" class="custom-width btn-small margin-top left hide" onclick="SubmitScore()">Submit Score</a>
+        </div>
+        </div>
     </div>
     <div><center><table id="board"></table></center></div>
 </div>
