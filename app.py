@@ -106,6 +106,24 @@ def create_game():
 	post_obj = request.json
 	post_obj["board"] = make_board(post_obj["size"])
 	users[post_obj["username"]] = post_obj
+	
+	if 'user' in session:
+	    username = session["user"]
+        uName = mongo.db.tblUsers.find_one({'username':username})
+        userAvatar = uName['avatar']
+    	uName = mongo.db.tblGamesPlayed.find_one({'Username':username})
+        if uName:
+            UserGameId = uName['_id']
+            mongo.db.tblGamesPlayed.update(
+                {'_id': ObjectId(UserGameId)},
+                {
+                    'Username': uName['Username'],
+                    'Games': int(uName['Games']) + 1,
+                    'Avatar': userAvatar
+                })
+        else:
+            mongo.db.tblGamesPlayed.insert_one({'Username': username, 'Games': 1, 'Avatar': userAvatar})
+	
 	return json.dumps(post_obj), 200
 
 @app.route('/submitScore',methods=['POST'])
@@ -144,7 +162,7 @@ def submitScore():
 def LeaderBoards():
     if 'user' in session:
         
-        Beginner=mongo.db.tblBeginner.find({ "$query": {}, "$orderby": { 'Moves' : 1 }})
+        Beginner=mongo.db.tblBeginner.find({ "$query": {}, "$orderby": { 'Moves' : 1 }}).limit(10)
         Expert=mongo.db.tblExpert.find({ "$query": {}, "$orderby": { 'Moves' : 1 }})
         GamesPlayed=mongo.db.tblGamesPlayed.find({ "$query": {}, "$orderby": { 'Games' : -1 }})
         
