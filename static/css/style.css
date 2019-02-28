@@ -99,3 +99,13 @@ nav {
     user-select: none;
     z-index: 1;
 }
+
+.avatar{
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    overflow: hidden;
+    left: 15px;
+    display: inline-block;
+    vertical-align: middle;
+}
