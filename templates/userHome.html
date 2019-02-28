@@ -20,6 +20,7 @@
     <div class="nav-wrapper">
       <label>User: </label><label id="user">{{session['user']}}</label>
       <ul id="nav-mobile" class="right">
+        <li><a href={{url_for('LeaderBoards')}}>LeaderBoards</a></li>
         <li class="active"><a href={{url_for('userHome')}}>Game</a></li>
         <li><a href="/logout">Logout</a></li>
       </ul>
