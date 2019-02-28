@@ -7,6 +7,30 @@ var width = 0;
 var guesses = 0;
 var correct = 0;
 
+function markPresent() {
+    window.markDate = new Date();
+    $(document).ready(function() {
+        $("div.absent").toggleClass("present");
+    });
+    updateClock();
+}
+
+function updateClock() {  
+    var currDate = new Date();
+    var diff = currDate - markDate;
+    document.getElementById("timer").innerHTML = format(diff/1000);
+    setTimeout(function() {updateClock()}, 1000);
+}
+
+function format(seconds)
+{
+var numhours = parseInt(Math.floor(((seconds % 31536000) % 86400) / 3600),10);
+var numminutes = parseInt(Math.floor((((seconds % 31536000) % 86400) % 3600) / 60),10);
+var numseconds = parseInt((((seconds % 31536000) % 86400) % 3600) % 60,10);
+    return ((numhours<10) ? "0" + numhours : numhours)
+    + ":" + ((numminutes<10) ? "0" + numminutes : numminutes)
+    + ":" + ((numseconds<10) ? "0" + numseconds : numseconds);
+}
 /*
 	Function: Create a New Game
 	 Purpose: Create a random board based on the selected boardsize
@@ -20,7 +44,7 @@ function loadGame() {
         tracker = [];
         idTracker = [];
         guesses = 0;
-
+    
 	var user = document.getElementById("user").innerHTML;
 	var e = document.getElementById("BoardSize");
 	var size = e.options[e.selectedIndex].value;
@@ -58,6 +82,7 @@ function loadGame() {
 					$("#divW").html(width/size);
 
 					click(data);
+					markPresent()
 				}
 	});
 }
@@ -128,8 +153,10 @@ function chosenBlock(i, j, id) {
 					}
 					else {
 					    correct ++;
-						$("#correct").html("Found: " + correct);
+						
 						if ((correct == 8) && (parseInt(size) == 4)) { //winner winner chicken dinner
+						    var timeElapsed = document.getElementById("timer").innerHTML
+						    $("#guesses").html("Guesses: " + currentGuesses + " in : " + timeElapsed);
 						    $('#Score').removeClass('hide');
 						    postObjScore = {
 		                            username: user,
@@ -139,6 +166,9 @@ function chosenBlock(i, j, id) {
 	                    console.log(postObjScore);
 						}
 						else if ((correct == 18) && (parseInt(size) == 6)){
+							var timeElapsed = document.getElementById("timer").innerHTML
+						    document.getElementById("timer").innerHTML = timeElapsed
+							
 							$('#Score').removeClass('hide');
 							postObjScore = {
 		                            username: user,
