@@ -103,28 +103,29 @@ def logout():
 
 @app.route("/create_game", methods = ["POST"])
 def create_game():
-	post_obj = request.json
-	post_obj["board"] = make_board(post_obj["size"])
-	users[post_obj["username"]] = post_obj
-	
-	if 'user' in session:
-	    username = session["user"]
-        uName = mongo.db.tblUsers.find_one({'username':username})
-        userAvatar = uName['avatar']
-    	uName = mongo.db.tblGamesPlayed.find_one({'Username':username})
+    post_obj = request.json
+    post_obj["board"] = make_board(post_obj["size"])
+    users[post_obj["username"]] = post_obj
+
+    if 'user' in session:
+        username = session["user"]
+        userName = mongo.db.tblUsers.find_one({'username':username})
+        userAvatar = userName['avatar']
+        uName = mongo.db.tblGamesPlayed.find_one({'Username':username})
         if uName:
             UserGameId = uName['_id']
             mongo.db.tblGamesPlayed.update(
-                {'_id': ObjectId(UserGameId)},
-                {
-                    'Username': uName['Username'],
-                    'Games': int(uName['Games']) + 1,
-                    'Avatar': userAvatar
-                })
+            {'_id': ObjectId(UserGameId)},
+            {
+                'Username': uName['Username'],
+            'Games': int(uName['Games']) + 1,
+            'Avatar': userAvatar
+            })
         else:
             mongo.db.tblGamesPlayed.insert_one({'Username': username, 'Games': 1, 'Avatar': userAvatar})
-	
-	return json.dumps(post_obj), 200
+    else:
+        return render_template('error.html',error = 'Unauthorized Access')
+    return json.dumps(post_obj), 200
 
 @app.route('/submitScore',methods=['POST'])
 def submitScore():
@@ -159,9 +160,7 @@ def LeaderBoards():
     else:
         return render_template('error.html',error = 'Unauthorized Access')
 
-
 def make_board(size):
-	print('hallo')
 	sizeint = int(size)
 	double = int(size) * int(size)
 	set_one = []
@@ -198,7 +197,7 @@ def make_board(size):
 			mini_board.append(combined_pool[0])
 			combined_pool.remove(combined_pool[0])
 		board.append(mini_board)	
-		print(board)
+	print(board)
 	return board
 
 @app.route("/tile_click", methods = ["POST"])

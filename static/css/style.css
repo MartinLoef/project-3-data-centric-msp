@@ -100,8 +100,7 @@ nav {
 }
 
 .select-wrapper input.select-dropdown{
-  border: 1px solid !important;
-  margin: 5px !important;
+  border: 0 !important;
 }
 
 .margin-top{
