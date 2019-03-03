@@ -1,4 +1,4 @@
-import os
+import os, config
 import random
 import sys
 import ast
@@ -9,13 +9,12 @@ from flask import Flask, render_template, redirect, request, url_for,session, js
 from werkzeug.security import generate_password_hash, check_password_hash
 from bson.objectid import ObjectId
 
+app = config.app
 
-app = Flask(__name__)
-app.secret_key = "randomsecretkey"
-app.config["MONGO_DBNAME"] = 'memory'
-app.config["MONGO_URI"] = 'mongodb://admin:Admin123@ds155045.mlab.com:55045/memory'
+app.config["MONGO_URI"] = config.app.config["MONGO_URI"]
 
-mongo = PyMongo(app)
+mongo = config.mongo
+
 users = {}
 
 @app.route('/')
@@ -215,6 +214,7 @@ def tile_click():
 	return json.dumps(info), 200
 
 if __name__ == '__main__':
-    app.run(host=os.environ.get("IP"),
-        port=int(os.environ.get("PORT")),
-        debug=True)
+    app.secret_key = config.secret_key
+    app.run(host=os.getenv('IP'), 
+            port=int(os.getenv('PORT')),
+            )
