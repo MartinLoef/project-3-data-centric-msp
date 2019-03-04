@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css" />
     <script type="text/javascript" src="/static/memory.js"></script>
 
@@ -36,7 +35,7 @@
               {%  for beginner in beginnerList %}
               <a href="#!" class="collection-item blue-grey lighten-2 white-text">
                   <div class="row no-bottom-margin">
-                      <div class="col s3 center"><img class=avatar src={{beginner.Avatar}} class="circle"></div>
+                      <div class="col s3 center"><img alt="user avatar" class=avatar src={{beginner.Avatar}} class="circle"></div>
                       <div class="col s3 center">{{beginner.Username}}</div>
                       <div class="col s3 center">{{beginner.Moves}}</div>
                       <div class="col s3 center">{{beginner.Time}}</div>
@@ -53,7 +52,7 @@
               {%  for expert in expertList %}
               <a href="#!" class="collection-item blue-grey lighten-2 white-text">
                   <div class="row no-bottom-margin">
-                      <div class="col s3 center"><img class=avatar src={{expert.Avatar}} class="circle"></div>
+                      <div class="col s3 center"><img alt="user avatar" class=avatar src={{expert.Avatar}} class="circle"></div>
                       <div class="col s3 center">{{expert.Username}}</div>
                       <div class="col s3 center">{{expert.Moves}}</div>
                       <div class="col s3 center">{{expert.Time}}</div>
@@ -70,7 +69,7 @@
               {%  for games in Games %}
               <a href="#!" class="collection-item blue-grey lighten-2 white-text">
                   <div class="row no-bottom-margin">
-                      <div class="col s4 center"><img class=avatar src={{games.Avatar}} class="circle"></div>
+                      <div class="col s4 center"><img alt="user avatar" class=avatar src={{games.Avatar}} class="circle"></div>
                       <div class="col s4 center">{{games.Username}}</div>
                       <div class="col s4 center">{{games.Games}}</div>
                   </div>

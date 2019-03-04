@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css" />
     <script type="text/javascript" src="/static/js/memory.js"></script>
-
     <title>Memory Game</title>
 </head>
 
@@ -43,9 +41,9 @@
             <span id="guesses"></span>
         </div>
         <div class="col s6 m3 tracking-info">
-        <div class="custom-center">
-            <a href="#Score" id="Score" class="custom-width btn-small margin-top left hide" onclick="SubmitScore()">Submit Score</a>
-        </div>
+            <div class="custom-center">
+                <a href="#Score" id="Score" class="custom-width btn-small margin-top left hide" onclick="SubmitScore()">Submit Score</a>
+            </div>
         </div>
         <div class="hide" id="timer"></div>
         <div class="hide" id="time"></div>
