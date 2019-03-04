@@ -15,18 +15,23 @@ app.config["MONGO_URI"] = config.app.config["MONGO_URI"]
 
 mongo = config.mongo
 
+# holds the board per user, so every users plays with their own board. Needed in case of multiple players at the same time.
 users = {}
+
 
 @app.route('/')
 def main():
+    """ Main page, offering instruction and login/registration """
     return render_template('index.html')
 
 @app.route('/showSignUp')
 def showSignUp():
+    """ SignUp page, offering to create a registration """
     return render_template('signup.html')
 
 @app.route('/SignUp',methods=['POST','GET'])
 def SignUp():
+    """ Signup function, validate and create a user in the database if all checks are good"""
     _name = request.form[('username')]
     _password = request.form[('password_one')]
     _passwordcheck = request.form[('password_two')]
@@ -53,6 +58,7 @@ def SignUp():
 
 @app.route('/userHome')
 def userHome():
+    """ if user is in session, it will return the game page (userHome.html)"""
     if 'user' in session:
         username = session["user"]
         uName = mongo.db.tblUsers.find_one({'username':username})
@@ -67,6 +73,7 @@ def userHome():
 
 @app.route('/showSignin')
 def showSignin():
+    """if there is no valid session, redirect to signin page, if there is a valid session, userHome will be shown"""
     if session.get('user'):
         return render_template('userHome.html')
     else:
@@ -74,6 +81,7 @@ def showSignin():
 
 @app.route('/validateLogin',methods=['POST'])
 def validateLogin():
+    """Validate the signin action, check username exists, check is provided password matches"""
     _username = request.form[('username')]
     _password = request.form[('password_one')]
     if _username and _password:
@@ -83,11 +91,8 @@ def validateLogin():
             pwd_hash = uName['pwd']
             if check_password_hash(str(pwd_hash),_password):
                 session['user'] = request.form[('username')]
-                userBeginner = mongo.db.tblBeginner.find_one({'username':_username})
-                userExpert = mongo.db.tblExpert.find_one({'username':_username})
-                userGames = mongo.db.tblGamesPlayed.find_one({'username':_username})
-                return render_template('userHome.html', user=session['user'], beginner=userBeginner, expert=userExpert, games=userGames)
-                # return redirect('/userHome')
+
+                return render_template('userHome.html', user=session['user'])
             else:
                 return render_template('signin.html',error = 'Invalid Password')
         else:
@@ -97,11 +102,13 @@ def validateLogin():
 
 @app.route('/logout')
 def logout():
+    """Log the current user out, remove from active session"""
     session.pop('user',None)
     return redirect('/')
 
 @app.route("/create_game", methods = ["POST"])
 def create_game():
+    """Create a game based on the boardsize choice, active session user"""
     post_obj = request.json
     post_obj["board"] = make_board(post_obj["size"])
     users[post_obj["username"]] = post_obj
@@ -128,6 +135,7 @@ def create_game():
 
 @app.route('/submitScore',methods=['POST'])
 def submitScore():
+    """submit a score based on the boardsize to the correct collection in the mongo database"""
     if 'user' in session:
         username = session["user"]
         uName = mongo.db.tblUsers.find_one({'username':username})
@@ -149,15 +157,19 @@ def submitScore():
 
 @app.route('/LeaderBoards')
 def LeaderBoards():
+    """Only visible for active session users, gets top10 entries from tblBeginner, tblExpert, tblGamesPlayed"""
     if 'user' in session:
         
         Beginner=mongo.db.tblBeginner.find({ "$query": {}, "$orderby": { 'Moves' : 1, 'Time': 1 }}).limit(10)
-        Expert=mongo.db.tblExpert.find({ "$query": {}, "$orderby": { 'Moves' : 1 , 'Time': 1 }})
-        GamesPlayed=mongo.db.tblGamesPlayed.find({ "$query": {}, "$orderby": { 'Games' : -1 }})
+        Expert=mongo.db.tblExpert.find({ "$query": {}, "$orderby": { 'Moves' : 1 , 'Time': 1 }}).limit(10)
+        GamesPlayed=mongo.db.tblGamesPlayed.find({ "$query": {}, "$orderby": { 'Games' : -1 }}).limit(10)
         
         return render_template('LeaderBoards.html', beginnerList=Beginner, expertList=Expert, Games=GamesPlayed, user=session['user'])
     else:
         return render_template('error.html',error = 'Unauthorized Access')
+
+# Function to create a board with numbers. Numbers are based on the size of the board.
+# returns a nested array which contains every number 2 times
 
 def make_board(size):
 	sizeint = int(size)
@@ -199,6 +211,7 @@ def make_board(size):
 	print(board)
 	return board
 
+# translates the tile that is clicked to a value from the board which is send back to the frontend where it is transformed based on the value to a icon
 @app.route("/tile_click", methods = ["POST"])
 def tile_click():
 	print(session['user'])

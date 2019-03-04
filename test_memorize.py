@@ -1,3 +1,5 @@
+# Automated tests in order to check if the boards which are created are correct
+
 import unittest
 import memorize
 
