@@ -51,6 +51,8 @@ Additionally, **jQuery**, version 3.2.1, is used to flip the 'tiles' by adding a
 Styling is done using [Materialize](https://materializecss.com), version 1.0.0.<br>
 <sup>Additional CSS was to create the flipping tile effects</sup>
 
+SECRET_KEY and Database(name, url, admin username, admin password) variables are setup as local variables in order to keep them secret.
+
 The site can be viewed [HERE](https://memorize-me-game.herokuapp.com/).
 Git repository can be found [HERE](https://github.com/MartinLoef/project-3-data-centric-msp).
 
