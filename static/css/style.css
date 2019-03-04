@@ -1,3 +1,13 @@
+/*CSS for forms*/
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+/*Style for board creation (table used)*/
+
 #board {
   min-width: 60%;
 }
@@ -11,17 +21,13 @@ table, tr, td{
 	max-width: 102px;
 }
 
-.form-signin {
-  max-width: 330px;
-  padding: 15px;
-  margin: 0 auto;
-}
-
 td {
   width: 16.66667%;
   position: relative;
 }
 
+
+/*Style to create rotating effect and showing the icons*/
 td .tile {
   position: absolute;
   box-shadow: 1px 1px 2px 2px grey;
@@ -61,7 +67,9 @@ td .flipped{
 	transform: rotateY(360deg);
 	transition: width 0.4s, background-color 0.5s, transform 0.7s;
 	}
-	
+
+
+/*CSS used to make sure that the icons fit and stay in the middle of the tiles based on the used device/screenwidth*/
 i.medium {
     	font-size: calc(3vw + 2vh);
     	margin: auto;
@@ -71,15 +79,12 @@ i.medium {
       vertical-align: middle;
     }
 
-nav {
-    color: #fff;
-    background-color: #a63434;
-    width: 100%;
-    height: 56px;
-    line-height: 56px;
+/*styling the game page*/
+.select-wrapper input.select-dropdown{
+  border: 0 !important;
 }
 
-.tracking{
+.tracking-info{
     position: relative;
     cursor: pointer;
     background-color: transparent;
@@ -98,24 +103,30 @@ nav {
     user-select: none;
     z-index: 1;
 }
-
-.select-wrapper input.select-dropdown{
-  border: 0 !important;
-}
-
 .margin-top{
   margin-top: 10px !important;
 }
 
+/*styling the navbar*/
+nav {
+    color: #fff;
+    background-color: #a63434;
+    width: 100%;
+    height: 56px;
+    line-height: 56px;
+}
 .active-user{
     font-size: 1rem;
     color: #fff;
     padding: 0 15px;
 }
 
+
+/*styling the leaderboard page*/
 .custom-width{
   width: 130px;
 }
+
 .avatar{
     position: absolute;
     width: 42px;
