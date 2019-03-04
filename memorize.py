@@ -36,7 +36,6 @@ def SignUp():
     _password = request.form[('password_one')]
     _passwordcheck = request.form[('password_two')]
     _avatar = request.form[('avatar')]
-    print(_avatar)
     # validate the received values
     if _name and _password and _passwordcheck and _avatar:
         uName = mongo.db.tblUsers.find_one({'username':_name})
@@ -208,13 +207,11 @@ def make_board(size):
 			mini_board.append(combined_pool[0])
 			combined_pool.remove(combined_pool[0])
 		board.append(mini_board)	
-	print(board)
 	return board
 
 # translates the tile that is clicked to a value from the board which is send back to the frontend where it is transformed based on the value to a icon
 @app.route("/tile_click", methods = ["POST"])
 def tile_click():
-	print(session['user'])
 	post_obj = request.json
 	choice = post_obj["choice"]
 	choice = ast.literal_eval(choice) # converts the str to dict

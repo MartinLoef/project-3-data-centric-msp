@@ -2,11 +2,8 @@ var tracker = [];
 var idTracker = [];
 var bigBoard = 0;
 var smallBoard = 0;
-var size = 0;
-var width = 0;
 var guesses = 0;
 var correct = 0;
-var timeElapsed = 0;
 
 function markPresent() {
     window.markDate = new Date();
@@ -63,11 +60,9 @@ function loadGame() {
 		    guesses = 0;
 		    $("#guesses").html("Guesses: ");
 					var element = document.getElementById("board");
-					console.log(parseInt(size));
-     				var name = 0;
+					var name = 0;
      				for (var x = 0; x < (parseInt(size)) ; x++) {
 						var tableRow = "row" + x;
-						console.log(tableRow);
 						$("#board").append("<tr id = " + tableRow + "></tr>");
 						for (var y = 0; y < parseInt(size); y++) {
 							$("#" + tableRow).append("<td><div value = " + x + " name =" + y + " id =" + name  + " class = 'tile'></div></td>");
@@ -154,19 +149,12 @@ function chosenBlock(i, j, id) {
 					}
 					else {
 					    correct ++;
-						console.log(correct)
 						if ((correct == 8) && (parseInt(size) == 4)) { //winner winner chicken dinner
 						    var timeElapsed = document.getElementById("timer").innerHTML
 						    $("#time").html(timeElapsed)
 						    $("#guesses").html("Guesses: " + currentGuesses + " in : " + timeElapsed);
 						    $('#Score').removeClass('hide');
-						    postObjScore = {
-		                            username: user,
-		                            Size: size,
-		                            Turns: currentGuesses,
-		                            Time: timeElapsed
-	                                }
-	                    console.log(postObjScore);
+
 						}
 						else if ((correct == 18) && (parseInt(size) == 6)){
 							var timeElapsed = document.getElementById("timer").innerHTML
@@ -174,13 +162,7 @@ function chosenBlock(i, j, id) {
 							$("#guesses").html("Guesses: " + currentGuesses + " in : " + timeElapsed);
 							 $("#time").html(timeElapsed)
 							$('#Score').removeClass('hide');
-							postObjScore = {
-		                            username: user,
-		                            Size: size,
-		                            Turns: currentGuesses,
-		                            Time: timeElapsed
-	                                }
-	                    
+							
 						}
 					}
 					if (tracker[0] === tracker[1]) {
@@ -207,7 +189,6 @@ function activate(id, value) {
 	var width = document.getElementById('board').offsetWidth;
 	var e = document.getElementById("BoardSize");
 	var size = e.options[e.selectedIndex].value;
-	var fz = 0.65 * (width/size)
 
 	if (value == 1){
 	    $("#" + id).append(`<i class="medium material-icons">` + "brightness_1" + `</i>`);
@@ -315,11 +296,10 @@ function SubmitScore(){
                     time: timeElapsed
                     
                     }
-                    console.log(postObjScore)
+
 	$.ajax({url: "/submitScore", type: "POST", contentType: "application/json", dataType: "json", data: JSON.stringify(postObjScore), success: function(data) {
 		$("#board").empty();
 		$('#Score').addClass('hide');
-		// $("#correct").html("Found: ");
 		$("#guesses").html("Guesses: ");
 		correct = 0
 	}});
