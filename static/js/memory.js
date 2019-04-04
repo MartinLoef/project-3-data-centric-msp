@@ -46,6 +46,11 @@ function loadGame() {
 	var user = document.getElementById("user").innerHTML;
 	var e = document.getElementById("BoardSize");
 	var size = e.options[e.selectedIndex].value;
+	if (size == 8) {
+		size = 4;
+	}
+	
+	
 	postObj = {
 		username: user,
 		size: size
@@ -189,65 +194,92 @@ function activate(id, value) {
 	var width = document.getElementById('board').offsetWidth;
 	var e = document.getElementById("BoardSize");
 	var size = e.options[e.selectedIndex].value;
-
-	if (value == 1){
-	    $("#" + id).append(`<i class="medium material-icons">` + "brightness_1" + `</i>`);
-	} 	
-	else if (value == 2){
-	    $("#" + id).append(`<i class="medium material-icons">` + "brightness_2" + `</i>`);
+	if (size == 8){
+		if (value == 1){
+		    $("#" + id).append(`<i class="medium material-icons"><img alt="user avatar" src='/static/images/MLoef.jpg' class="circle img-responsive"></i>`);
+		} 	
+		else if (value == 2){
+		    $("#" + id).append(`<i class="medium material-icons"><img alt="user avatar" src='/static/images/40.png' class="circle img-responsive"></i>`);
+		}
+		else if (value == 3){
+		    $("#" + id).append(`<i class="medium material-icons"><img alt="user avatar" src='/static/images/malta.jpg' class="circle img-responsive"></i>`);
+		}
+		else if (value == 4){
+		    $("#" + id).append(`<i class="medium material-icons"><img alt="user avatar" src='/static/images/pathe.jpg' class="circle img-responsive"></i>`);
+		}
+		else if (value == 5){
+		    $("#" + id).append(`<i class="medium material-icons"><img alt="user avatar" src='/static/images/puzzles.jpg' class="circle img-responsive"></i>`);
+		}
+		else if (value == 6){
+		    $("#" + id).append(`<i class="medium material-icons"><img alt="user avatar" src='/static/images/security.jpg' class="circle img-responsive"></i>`);
+		}
+		else if (value == 7){
+		    $("#" + id).append(`<i class="medium material-icons"><img alt="user avatar" src='/static/images/pijnacker.jpg' class="circle img-responsive"></i>`);
+		}
+		else if (value == 0){
+		    $("#" + id).append(`<i class="medium material-icons"><img alt="user avatar" src='/static/images/wine.jpg' class="circle img-responsive"></i>`);
+		}
+		
 	}
-	else if (value == 3){
-	    $("#" + id).append(`<i class="medium material-icons">` + "brightness_3" + `</i>`);
+	else {
+		if (value == 1){
+		    $("#" + id).append(`<i class="medium material-icons">` + "brightness_1" + `</i>`);
+		} 	
+		else if (value == 2){
+		    $("#" + id).append(`<i class="medium material-icons">` + "brightness_2" + `</i>`);
+		}
+		else if (value == 3){
+		    $("#" + id).append(`<i class="medium material-icons">` + "brightness_3" + `</i>`);
+		}
+		else if (value == 4){
+		    $("#" + id).append(`<i class="medium material-icons">` + "brightness_4" + `</i>`);
+		}
+		else if (value == 5){
+		    $("#" + id).append(`<i class="medium material-icons">` + "brightness_5" + `</i>`);
+		}
+		else if (value == 6){
+		    $("#" + id).append(`<i class="medium material-icons">` + "brightness_6" + `</i>`);
+		}
+		else if (value == 7){
+		    $("#" + id).append(`<i class="medium material-icons">` + "brightness_7" + `</i>`);
+		}
+		else if (value == 0){
+		    $("#" + id).append(`<i class="medium material-icons">` + "brightness_auto" + `</i>`);
+		}
+		else if (value == 8){
+		    $("#" + id).append(`<i class="medium material-icons">` + "border_clear" + `</i>`);
+		}
+		else if (value == 9){
+		    $("#" + id).append(`<i class="medium material-icons">` + "border_bottom" + `</i>`);
+		}
+		else if (value == 10){
+		    $("#" + id).append(`<i class="medium material-icons">` + "border_inner" + `</i>`);
+		}
+		else if (value == 11){
+		    $("#" + id).append(`<i class="medium material-icons">` + "border_outer" + `</i>`);
+		}
+		else if (value == 12){
+		    $("#" + id).append(`<i class="medium material-icons">` + "border_left" + `</i>`);
+		}
+		else if (value == 13){
+		    $("#" + id).append(`<i class="medium material-icons">` + "border_right" + `</i>`);
+		}
+		else if (value == 14){
+		    $("#" + id).append(`<i class="medium material-icons">` + "border_horizontal" + `</i>`);
+		}
+		else if (value == 15){
+		    $("#" + id).append(`<i class="medium material-icons">` + "border_vertical" + `</i>`);
+		}
+		else if (value == 16){
+		    $("#" + id).append(`<i class="medium material-icons">` + "border_all" + `</i>`);
+		}
+		else if (value == 17){
+		    $("#" + id).append(`<i class="medium material-icons">` + "border_top" + `</i>`);
+		}
+		else{
+		    $("#" + id).append(`<span>` + value + `</span>`);
+		}
 	}
-	else if (value == 4){
-	    $("#" + id).append(`<i class="medium material-icons">` + "brightness_4" + `</i>`);
-	}
-	else if (value == 5){
-	    $("#" + id).append(`<i class="medium material-icons">` + "brightness_5" + `</i>`);
-	}
-	else if (value == 6){
-	    $("#" + id).append(`<i class="medium material-icons">` + "brightness_6" + `</i>`);
-	}
-	else if (value == 7){
-	    $("#" + id).append(`<i class="medium material-icons">` + "brightness_7" + `</i>`);
-	}
-	else if (value == 0){
-	    $("#" + id).append(`<i class="medium material-icons">` + "brightness_auto" + `</i>`);
-	}
-	else if (value == 8){
-	    $("#" + id).append(`<i class="medium material-icons">` + "border_clear" + `</i>`);
-	}
-	else if (value == 9){
-	    $("#" + id).append(`<i class="medium material-icons">` + "border_bottom" + `</i>`);
-	}
-	else if (value == 10){
-	    $("#" + id).append(`<i class="medium material-icons">` + "border_inner" + `</i>`);
-	}
-	else if (value == 11){
-	    $("#" + id).append(`<i class="medium material-icons">` + "border_outer" + `</i>`);
-	}
-	else if (value == 12){
-	    $("#" + id).append(`<i class="medium material-icons">` + "border_left" + `</i>`);
-	}
-	else if (value == 13){
-	    $("#" + id).append(`<i class="medium material-icons">` + "border_right" + `</i>`);
-	}
-	else if (value == 14){
-	    $("#" + id).append(`<i class="medium material-icons">` + "border_horizontal" + `</i>`);
-	}
-	else if (value == 15){
-	    $("#" + id).append(`<i class="medium material-icons">` + "border_vertical" + `</i>`);
-	}
-	else if (value == 16){
-	    $("#" + id).append(`<i class="medium material-icons">` + "border_all" + `</i>`);
-	}
-	else if (value == 17){
-	    $("#" + id).append(`<i class="medium material-icons">` + "border_top" + `</i>`);
-	}
-	else{
-	    $("#" + id).append(`<span>` + value + `</span>`);
-	}
-	
 	
 }
 /*

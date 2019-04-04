@@ -79,6 +79,11 @@ i.medium {
       vertical-align: middle;
     }
 
+td .span{
+  vertical-align: center !important;
+  display: block !important
+}
+
 /*styling the game page*/
 .select-wrapper input.select-dropdown{
   border: 0 !important;
@@ -127,10 +132,26 @@ nav {
   width: 130px;
 }
 
+.img-responsive {
+    max-width: 120px;
+    height: auto;
+    vertical-align: middle;
+}
+
 .avatar{
     position: absolute;
     width: 42px;
     height: 42px;
+    overflow: hidden;
+    left: 15px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.avatar2{
+    position: absolute;
+    width: 100px;
+    height: 100px;
     overflow: hidden;
     left: 15px;
     display: inline-block;
