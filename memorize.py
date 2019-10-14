@@ -1,3 +1,4 @@
+import datetime
 import os, config
 import random
 import sys
@@ -136,7 +137,8 @@ def create_game():
 def submitScore():
     """submit a score based on the boardsize to the correct collection in the mongo database"""
     if 'user' in session:
-        username = session["user"]
+        dt = datetime.datetime.now()
+	username = session["user"]
         uName = mongo.db.tblUsers.find_one({'username':username})
         userAvatar = uName['avatar']
         post_obj = request.json
@@ -148,7 +150,7 @@ def submitScore():
             tbl_scores = mongo.db.tblBeginner
         else:
             tbl_scores = mongo.db.tblExpert
-        tbl_scores.insert_one({'Username': username, 'Size': size, 'Moves': turns, 'Time': time,  'Avatar': userAvatar})
+        tbl_scores.insert_one({'playdate': dt, 'Username': username, 'Size': size, 'Moves': turns, 'Time': time,  'Avatar': userAvatar})
         
         return json.dumps("Success"), 200
     else:
